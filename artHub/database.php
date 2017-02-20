@@ -49,6 +49,35 @@ class Database
 		}
 		Database::disconnect();
 	}
+	
+	public function displayArtistContents()
+	{
+		$pdo = Database::connect();
+		$sql = 'SELECT * FROM artists ORDER BY id DESC';
+		foreach ($pdo->query($sql) as $row) {
+			echo '<tr>';
+			echo '<td>'. $row['artist_name'] . '</td>';
+			echo '<td>'. $row['email'] . '</td>';
+			echo '<td>'. $row['experience'] . '</td>';
+			echo '<td><a class="btn" href="favorite.php?id='.$row['id']. '">Favorite</a></td>';
+			echo '</tr>';
+		}
+		Database::disconnect();
+	}
+	
+	public function displayPatronContents()
+	{
+		$pdo = Database::connect();
+		$sql = 'SELECT * FROM patrons ORDER BY id DESC';
+		foreach ($pdo->query($sql) as $row) {
+			echo '<tr>';
+			echo '<td>'. $row['[patron_name'] . '</td>';
+			echo '<td>'. $row['email'] . '</td>';
+			echo '<td><a class="btn" href="favorite.php?id='.$row['id']. '">Favorite</a></td>';
+			echo '</tr>';
+		}
+		Database::disconnect();
+	}
 
 	public displayArtHeading()
 	{
@@ -57,6 +86,24 @@ class Database
 		<a class="btn btn-danger"href=logout.php>Log Out</a>
 		<table class="table table-bordered table-striped"><thead><tr><th>Description
 		<th>Date Created<th>Price<th>Size<th>Action<tbody>';
+	}
+	
+	public displayArtistHeading()
+	{
+		echo '<div class=container><div class=row><h3>Browse Artists</h3></div>
+		<div class=row><p><a class="btn btn-success"href=upload.php>Upload Art</a>
+		<a class="btn btn-danger"href=logout.php>Log Out</a>
+		<table class="table table-bordered table-striped"><thead><tr><th>Name
+		<th>Email<th>Experience Level<th>Action<tbody>';
+	}
+	
+	public displayPatronHeading()
+	{
+		echo '<div class=container><div class=row><h3>Browse Patrons</h3></div>
+		<div class=row><p><a class="btn btn-success"href=upload.php>Upload Art</a>
+		<a class="btn btn-danger"href=logout.php>Log Out</a>
+		<table class="table table-bordered table-striped"><thead><tr><th>Name
+		<th>Email<th>Action<tbody>';
 	}
 
 	public function importBootstrap()
@@ -83,7 +130,7 @@ class Database
 		Database::displayFooting();
 	}
 
-	public function displayArtistCollection()
+	public function displayArtists()
 	{
 		Database::importBootstrap();
 		Database::displayArtistHeading();
@@ -91,7 +138,7 @@ class Database
 		Database::displayFooting();
 	}
 
-	public function displayPatronCollection()
+	public function displayPatrons()
 	{
 		Database::importBootstrap();
 		Database::displayPatronHeading();

@@ -1,4 +1,9 @@
 <?php
+	
+	include 'database.php';
+	include 'artists.php';
+	include 'patrons.php';
+
 	session_start();
 	if (empty($_SESSION['userid']))
 		login();
