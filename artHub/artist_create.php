@@ -12,8 +12,8 @@
         // keep track post values
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $password_unhashed = $_POST['password'];
-		$password = md5($password_unhashed);
+        $password = $_POST['password'];
+		$password = md5($password);
 		$experience = $_POST['experience'];
 
         // validate input
@@ -28,7 +28,7 @@
             $valid = false;
         }
 
-        if (empty($password_unhashed)) {
+        if (empty($password)) {
             $priceError = 'Please enter a password';
             $valid = false;
         }

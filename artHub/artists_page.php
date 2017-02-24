@@ -8,6 +8,19 @@
  
 <body>
     <div class="container">
+		<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="artHub.php">Art Hub</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="artHub.php">Home</a></li>
+                <li><a href="artworks_page.php">Browse Art</a></li>
+                <li><a href="artists_page.php">Browse Artists</a></li>
+                <li><a href="patrons_page.php">Browse Patrons</a></li>
+        </ul>
+    </div>
+</nav>
             <div class="row">
                 <h3>Artists</h3>
             </div>

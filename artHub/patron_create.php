@@ -11,8 +11,7 @@
         // keep track post values
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $password_unhashed = $_POST['password'];
-		$password = md5($password_unhashed);
+        $password = $_POST['password'];
 
         // validate input
         $valid = true;
@@ -26,17 +25,18 @@
             $valid = false;
         }
 
-        if (empty($password_unhashed)) {
+        if (empty($password)) {
             $priceError = 'Please enter a password';
             $valid = false;
-        }
+        } else 
+			$password = md5($password);
 	
         // insert data
         if ($valid) {
             $pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "INSERT INTO artists (name,email,password) values(?, ?, ?)";
+            $sql = "INSERT INTO patrons (name,email,password) values(?, ?, ?)";
             $q = $pdo->prepare($sql);
             $q->execute(array($name,$email,$password));
             Database::disconnect();
