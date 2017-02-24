@@ -13,7 +13,6 @@
         $name = $_POST['name'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-		$password = md5($password);
 		$experience = $_POST['experience'];
 
         // validate input
@@ -31,7 +30,9 @@
         if (empty($password)) {
             $priceError = 'Please enter a password';
             $valid = false;
-        }
+        } else
+			$password = md5($password);
+
 		
 		if (empty($experience)) {
             $experienceError = 'Please enter an experience level';

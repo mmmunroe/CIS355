@@ -4,7 +4,7 @@
 
 	$email = $_POST['email'];
 	$password = $_POST['password'];
-	$password_hash = md5($password);
+	$password = md5($password);
 	loginApproved = false;
 	
 	//find record with email address

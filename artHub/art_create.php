@@ -82,6 +82,7 @@
                     </div>
 
                     <form class="form-horizontal" action="art_create.php" method="post">
+
                       <div class="control-group <?php echo !empty($artist_idError)?'error':'';?>">
                         <label class="control-label">Artist</label>
                         <div class="controls">
@@ -97,12 +98,14 @@
 							<?php if (!empty($artist_idError)): ?>
                                 <span class="help-inline"><?php echo $artist_idError;?></span>
                             <?php endif; ?>
+							</select>
                         </div>
                       </div>
+
 					  <div class="control-group <?php echo !empty($patron_idError)?'error':'';?>">
                         <label class="control-label">Patron</label>
                         <div class="controls">
-							<select name="patron_id" type="text"  placeholder="Patron Id" value="<?php echo !empty($patron_id)?$patron_id:'';?>">
+							<select name="patron_id"  placeholder="Patron Id" value="<?php echo !empty($patron_id)?$patron_id:'';?>">
                             <?php
 								$pdo = Database::connect();
 								$sql = 'SELECT * FROM patrons ORDER BY id DESC';
@@ -114,6 +117,7 @@
                             <?php if (!empty($patron_id)): ?>
                                 <span class="help-inline"><?php echo $patron_idError;?></span>
                             <?php endif; ?>
+							</select>
                         </div>
                       </div>
 					  <div class="control-group <?php echo !empty($descriptionError)?'error':'';?>">

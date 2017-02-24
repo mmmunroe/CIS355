@@ -25,27 +25,39 @@
 		</nav>
         <div class="row">
         	<h3>Welcome</h3>
-
+<!--
 		<?php
-
-    		include 'database.php';
-
-    		session_start();
-    		if (empty($_SESSION['userid']))
-        		login();
-
-    		function login() {
-				echo '<label>Please log in</label>';
-        		echo '<form action="login_form.php" method="post">';
-        		echo '<label>Email: ';
-        		echo '<input type="text" name="email"><br>';
-        		echo '<p>Password: ';
-        		echo '<input type="password" name="password"><br>';
-        		echo '<input id="button" type="submit" name="submit" value="Log-In">';
-        		echo '</form>';
+    		if(isset($_SESSION['message']))
+    		{
+         		echo "<div id='error_msg'>".$_SESSION['message']."</div>";
+         		unset($_SESSION['message']);
     		}
 		?>
-
+	<form method="post" action="login.php">
+  		<table>
+     	<tr>
+           <td>Name : </td>
+           <td><input type="text" name="username" class="textInput"></td>
+     	</tr>
+      	<tr>
+           <td>Password : </td>
+           <td><input type="password" name="password" class="textInput"></td>
+     	</tr>
+      	<tr>
+           <td></td>
+           <td><input type="submit" name="login_btn" class="Log In"></td>
+     	</tr>
+		</table>
+   		<p>
+			<a href="logout.php" class="btn btn-danger">Log out</a>
+		</p>
+-->
+		<p>
+        	<a href="artist_create.php" class="btn btn-primary">Create new Artist Account</a>
+        </p>
+		<p>
+			<a href="patron_create.php" class="btn btn-info">Create new Patron Account</a>
+		</p>
         </div>
     </div> <!-- /container -->
   </body>
