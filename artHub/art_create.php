@@ -6,6 +6,7 @@
         // keep track validation errors
 		$artist_idError = null;
 		$patron_idError = null;
+        $titleError = null;
         $descriptionError = null;
         $date_createdError = null;
         $priceError = null;
@@ -14,6 +15,7 @@
         // keep track post values
 		$artist_id = $_POST['artist_id'];
 		$patron_id = $_POST['patron_id'];
+		$title = $_POST['title'];
         $description = $_POST['description'];
         $date_created = $_POST['date_created'];
         $price = $_POST['price'];
@@ -31,6 +33,11 @@
             $valid = false;
         }
 		
+		if (empty($title)) {
+			$titleError = 'Please enter a title';
+			$valid = false;
+		}
+
         if (empty($description)) {
             $nameError = 'Please enter a description';
             $valid = false;
@@ -46,7 +53,7 @@
             $valid = false;
         }
 
-                if (empty($size)) {
+        if (empty($size)) {
             $sizeError = 'Please enter a size';
             $valid = false;
         }
@@ -56,9 +63,9 @@
             $pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "INSERT INTO artworks (artist_id,patron_id,description,date_created,price,size) values(?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO artworks (artist_id,patron_id,title,description,date_created,price,size) values(?, ?, ?, ?, ?, ?, ?)";
             $q = $pdo->prepare($sql);
-            $q->execute(array($artist_id,patron_id,description,$date_created,$price,$size));
+            $q->execute(array($artist_id,$patron_id,$title,$description,$date_created,$price,$size));
             Database::disconnect();
             header("Location: artworks_page.php");
         }
@@ -120,15 +127,28 @@
 							</select>
                         </div>
                       </div>
+
+					  <div class="control-group <?php echo !empty($titleError)?'error':'';?>">
+                        <label class="control-label">Title</label>
+                        <div class="controls">
+                            <input name="title" type="text"  placeholder="Title" value="<?php echo !empty($title)?$title:'';?>">
+                            <?php if (!empty($titleError)): ?>
+                                <span class="help-inline"><?php echo $titleError;?></span>
+                            <?php endif;?>
+                        </div>
+                      </div>
+
+
 					  <div class="control-group <?php echo !empty($descriptionError)?'error':'';?>">
                         <label class="control-label">Description</label>
                         <div class="controls">
                             <input name="description" type="text"  placeholder="Description" value="<?php echo !empty($description)?$description:'';?>">
                             <?php if (!empty($descriptionError)): ?>
                                 <span class="help-inline"><?php echo $descriptionError;?></span>
-                            <?php endif; ?>
+                            <?php endif;?>
                         </div>
                       </div>
+
                       <div class="control-group <?php echo !empty($date_createdError)?'error':'';?>">
                         <label class="control-label">Date Created</label>
                         <div class="controls">
@@ -147,6 +167,7 @@
                             <?php endif;?>
                         </div>
                       </div>
+
                                           <div class="control-group <?php echo !empty($sizeError)?'error':'';?>">
                         <label class="control-label">Size</label>
                         <div class="controls">

@@ -32,6 +32,7 @@
                 <table class="table table-striped table-bordered">
                       <thead>
                         <tr>
+						  <th>Title</th>
                           <th>Description</th>
                           <th>Date Created</th>
 						  <th>Price</th>
@@ -46,6 +47,7 @@
                        $sql = 'SELECT * FROM artworks ORDER BY id DESC';
                        foreach ($pdo->query($sql) as $row) {
                                 echo '<tr>';
+                                echo '<td>'. $row['title'] . '</td>';
                                 echo '<td>'. $row['description'] . '</td>';
                                 echo '<td>'. $row['date_created'] . '</td>';
 								echo '<td>'. $row['price'] . '</td>';

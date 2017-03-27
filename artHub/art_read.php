@@ -34,6 +34,17 @@
                     </div>
                      
                     <div class="form-horizontal" >
+
+                      <div class="control-group">
+                        <label class="control-label">Title</label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['title'];?>
+                            </label>
+                        </div>
+                      </div>
+
+
                       <div class="control-group">
                         <label class="control-label">Description</label>
                         <div class="controls">

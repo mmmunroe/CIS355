@@ -12,12 +12,14 @@
      
     if ( !empty($_POST)) {
         // keep track validation errors
+		$titleError = null;
         $descriptionError = null;
         $date_createdError = null;
         $priceError = null;
 		$sizeError = null;
          
         // keep track post values
+        $title = $_POST['title'];
         $description = $_POST['description'];
         $date_created = $_POST['date_created'];
         $price = $_POST['price'];
@@ -25,6 +27,12 @@
          
         // validate input
         $valid = true;
+
+		if (empty($title)) {
+            $titleError = 'Please enter a title';
+            $valid = false;
+		}
+
         if (empty($description)) {
             $descriptionError = 'Please enter a description';
             $valid = false;
@@ -44,9 +52,9 @@
         if ($valid) {
             $pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE artworks  set description = ?, date_created = ?, price =?, size = ? WHERE id = ?";
+            $sql = "UPDATE artworks  set title = ?, description = ?, date_created = ?, price =?, size = ? WHERE id = ?";
             $q = $pdo->prepare($sql);
-            $q->execute(array($description,$date_created,$price,$size,$id));
+            $q->execute(array($title,$description,$date_created,$price,$size,$id));
             Database::disconnect();
             header("Location: artworks_page.php");
         }
@@ -57,6 +65,7 @@
         $q = $pdo->prepare($sql);
         $q->execute(array($id));
         $data = $q->fetch(PDO::FETCH_ASSOC);
+        $title = $data['title'];
         $description = $data['description'];
         $date_created = $data['date_created'];
         $price = $data['price'];
@@ -82,7 +91,18 @@
                     </div>
              
                     <form class="form-horizontal" action="art_update.php?id=<?php echo $id?>" method="post">
-                      <div class="control-group <?php echo !empty($descriptionError)?'error':'';?>">
+                    
+					<div class="control-group <?php echo !empty($titleError)?'error':'';?>">
+                        <label class="control-label">Title</label>
+                        <div class="controls">
+                            <input name="title" type="text"  placeholder="Title" value="<?php echo !empty($title)?$title:'';?>">
+                            <?php if (!empty($titleError)): ?>
+                                <span class="help-inline"><?php echo $titleError;?></span>
+                            <?php endif; ?>
+						</div>
+             		</div>
+  
+					<div class="control-group <?php echo !empty($descriptionError)?'error':'';?>">
                         <label class="control-label">Description</label>
                         <div class="controls">
                             <input name="description" type="text"  placeholder="Description" value="<?php echo !empty($description)?$description:'';?>">
