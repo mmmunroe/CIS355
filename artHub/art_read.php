@@ -18,13 +18,13 @@
 		# get artist details
 		$sql = "SELECT * FROM artists where id = ?";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($data['assign_artist_id']));
+		$q->execute(array($data['artist_id']));
 		$artistdata = $q->fetch(PDO::FETCH_ASSOC);
 
 		# get patron details
 		$sql = "SELECT * FROM patrons where id = ?";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($data['assign_patron_id']));
+		$q->execute(array($data['patron_id']));
 		$patrondata = $q->fetch(PDO::FETCH_ASSOC);
 
         Database::disconnect();
