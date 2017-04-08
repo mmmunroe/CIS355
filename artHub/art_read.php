@@ -14,6 +14,19 @@
         $q = $pdo->prepare($sql);
         $q->execute(array($id));
         $data = $q->fetch(PDO::FETCH_ASSOC);
+
+		# get artist details
+		$sql = "SELECT * FROM artists where id = ?";
+		$q = $pdo->prepare($sql);
+		$q->execute(array($data['assign_artist_id']));
+		$artistdata = $q->fetch(PDO::FETCH_ASSOC);
+
+		# get patron details
+		$sql = "SELECT * FROM patrons where id = ?";
+		$q = $pdo->prepare($sql);
+		$q->execute(array($data['assign_patron_id']));
+		$patrondata = $q->fetch(PDO::FETCH_ASSOC);
+
         Database::disconnect();
     }
 ?>
@@ -77,6 +90,25 @@
                             </label>
                         </div>
                       </div>
+
+					<div class="control-group">
+        <label class="control-label">Artist</label>
+            <div class="controls">
+                <label class="checkbox">
+				<?php echo $artistdata['name'];?>
+        		</label>
+            </div>
+ 		</div>
+
+				<div class="control-group">
+    <label class="control-label">Patron</label>
+        <div class="controls">
+                <label class="checkbox">
+                     <?php echo $patrondata['name'];?>
+				</label>
+        </div>
+ </div>
+
                         <div class="form-actions">
                           <a class="btn" href="artworks_page.php">Back</a>
                        </div>

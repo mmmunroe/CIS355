@@ -17,6 +17,9 @@
         $date_createdError = null;
         $priceError = null;
 		$sizeError = null;
+
+		$artistError = null;
+		$patronError = null;
          
         // keep track post values
         $title = $_POST['title'];
@@ -24,7 +27,10 @@
         $date_created = $_POST['date_created'];
         $price = $_POST['price'];
 		$size = $_POST['size'];
-         
+        
+		$artist = $_POST['artist_id'];
+		$patron = $_POST['patron_id'];
+ 
         // validate input
         $valid = true;
 
@@ -47,14 +53,23 @@
             $priceError = 'Please enter a price';
             $valid = false;
         }
+
+		if (empty($artist)) {
+			$artistError = 'Please choose an artist';
+			$valid = false;
+		}
+		if (empty($patron)) {
+			$patronError = 'Please choose a patron';
+			$valid = false;
+		} 
          
         // update data
         if ($valid) {
             $pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE artworks  set title = ?, description = ?, date_created = ?, price =?, size = ? WHERE id = ?";
+            $sql = "UPDATE artworks  set artist_id = ?, patron_id = ?, title = ?, description = ?, date_created = ?, price =?, size = ? WHERE id = ?";
             $q = $pdo->prepare($sql);
-            $q->execute(array($title,$description,$date_created,$price,$size,$id));
+            $q->execute(array($artist_id,$patron_id,$title,$description,$date_created,$price,$size,$id));
             Database::disconnect();
             header("Location: artworks_page.php");
         }
@@ -65,6 +80,8 @@
         $q = $pdo->prepare($sql);
         $q->execute(array($id));
         $data = $q->fetch(PDO::FETCH_ASSOC);
+		$artist = $data['artist_id'];
+		$patron = $data['patron_id'];
         $title = $data['title'];
         $description = $data['description'];
         $date_created = $data['date_created'];
@@ -92,6 +109,46 @@
              
                     <form class="form-horizontal" action="art_update.php?id=<?php echo $id?>" method="post">
                     
+					<div class="control-group">
+					<label class="control-label">Artist</label>
+					<div class="controls">
+						<?php
+							$pdo = Database::connect();
+							$sql = 'SELECT * FROM artists ORDER BY name ASC';
+							echo "<select class='form-control' name='artist_id' id='artist_id'>";
+							foreach ($pdo->query($sql) as $row) {
+								if($row['id']==$artist)
+									echo "<option selected value='" . $row['id'] . " '> " . $row['name'] . "</option>";
+								else
+									echo "<option value='" . $row['id'] . " '> " . $row['name'] . "</option>";
+							}
+							echo "</select>";
+							Database::disconnect();
+						?>
+					</div>	<!-- end div: class="controls" -->
+				</div> <!-- end div class="control-group" -->
+
+					<div class="control-group">
+					<label class="control-label">Patron</label>
+					<div class="controls">
+						<?php
+							$pdo = Database::connect();
+							$sql = 'SELECT * FROM patrons ORDER BY name ASC';
+							echo "<select class='form-control' name='patron_id' id='patron_id'>";
+							foreach ($pdo->query($sql) as $row) {
+								if($row['id']==$patron) {
+									echo "<option selected value='" . $row['id'] . " '> " . $row['name'] . "</option>";
+								}
+								else {
+									echo "<option selected value='" . $row['id'] . " '> " . $row['name'] . "</option>";
+								}
+							}
+							echo "</select>";
+							Database::disconnect();
+						?>
+					</div>	<!-- end div: class="controls" -->
+				</div> <!-- end div class="control-group" -->
+
 					<div class="control-group <?php echo !empty($titleError)?'error':'';?>">
                         <label class="control-label">Title</label>
                         <div class="controls">
