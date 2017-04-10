@@ -1,3 +1,24 @@
+<?php 
+	session_start();
+	if(!isset($_SESSION['artist_id'])){ // if artist not set,
+		if(!isset($_SESSION['patron_id'])) { // or if patron not set,
+			session_destroy();
+			header('Location: login.php');   // go to login page
+			exit;
+		}
+	}
+
+	$id = $_GET['id'];
+	
+	if(isset($_SESSION['artist_id'])){ 
+		$sessionid = $_SESSION['artist_id'];
+	}
+	if(isset($_SESSION['patron_id'])) {
+		$sessionid = $_SESSION['artist_id'];
+	}
+	
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,33 +46,9 @@
 		</nav>
         <div class="row">
         	<h3>Welcome</h3>
-<!--
-		<?php
-    		if(isset($_SESSION['message']))
-    		{
-         		echo "<div id='error_msg'>".$_SESSION['message']."</div>";
-         		unset($_SESSION['message']);
-    		}
-		?>
-	<form method="post" action="login.php">
-  		<table>
-     	<tr>
-           <td>Name : </td>
-           <td><input type="text" name="username" class="textInput"></td>
-     	</tr>
-      	<tr>
-           <td>Password : </td>
-           <td><input type="password" name="password" class="textInput"></td>
-     	</tr>
-      	<tr>
-           <td></td>
-           <td><input type="submit" name="login_btn" class="Log In"></td>
-     	</tr>
-		</table>
    		<p>
 			<a href="logout.php" class="btn btn-danger">Log out</a>
 		</p>
--->
 		<p>
         	<a href="artist_create.php" class="btn btn-primary">Create new Artist Account</a>
         </p>
