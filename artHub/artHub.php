@@ -14,7 +14,7 @@
 		$sessionid = $_SESSION['artist_id'];
 	}
 	if(isset($_SESSION['patron_id'])) {
-		$sessionid = $_SESSION['artist_id'];
+		$sessionid = $_SESSION['patron_id'];
 	}
 	
 ?>

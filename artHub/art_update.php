@@ -17,6 +17,7 @@
         $date_createdError = null;
         $priceError = null;
 		$sizeError = null;
+		$pictureError = null;
 
 		$artistError = null;
 		$patronError = null;
@@ -27,9 +28,17 @@
         $date_created = $_POST['date_created'];
         $price = $_POST['price'];
 		$size = $_POST['size'];
+		$picture = $_POST['picture'];
         
 		$artist = $_POST['artist_id'];
 		$patron = $_POST['patron_id'];
+
+		// initialize $_FILES variables
+		$fileName = $_FILES['userfile']['name'];
+		$tmpName  = $_FILES['userfile']['tmp_name'];
+		$fileSize = $_FILES['userfile']['size'];
+		$fileType = $_FILES['userfile']['type'];
+		$content = file_get_contents($tmpName);
  
         // validate input
         $valid = true;
@@ -62,33 +71,60 @@
 			$patronError = 'Please choose a patron';
 			$valid = false;
 		} 
+
+		// restrict file types for upload
+		$types = array('image/jpeg','image/gif','image/png');
+		if($filesize > 0) {
+			if(in_array($_FILES['userfile']['type'], $types)) {
+			}
+			else {
+				$filename = null;
+				$filetype = null;
+				$filesize = null;
+				$filecontent = null;
+				$pictureError = 'improper file type';
+				$valid=false;
+			
+			}
+		}
          
-        // update data
-        if ($valid) {
-            $pdo = Database::connect();
+        if ($valid) { // if valid user input update the database
+	
+		if($fileSize > 0) { // if file was updated, update all fields
+			$pdo = Database::connect();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "UPDATE artworks  set artist_id = ?, patron_id = ?, title = ?, description = ?, date_created = ?, price =?, size = ?, fileName = ?, fileSize = ?, fileType = ?, content = ? WHERE id = ?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array($artist_id,$patron_id,$title,$description,$date_created,$price,$size,$fileName,$fileSize,$fileType,$content,$id));
+            Database::disconnect();
+            header("Location: artworks_page.php");
+		}
+		else { // otherwise, update all fields EXCEPT file fields
+			$pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $sql = "UPDATE artworks  set artist_id = ?, patron_id = ?, title = ?, description = ?, date_created = ?, price =?, size = ? WHERE id = ?";
             $q = $pdo->prepare($sql);
             $q->execute(array($artist_id,$patron_id,$title,$description,$date_created,$price,$size,$id));
             Database::disconnect();
             header("Location: artworks_page.php");
-        }
-    } else {
-        $pdo = Database::connect();
+		}
+	}
+ } else { // if $_POST NOT filled then pre-populate the form
+	$pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "SELECT * FROM artworks where id = ?";
         $q = $pdo->prepare($sql);
         $q->execute(array($id));
         $data = $q->fetch(PDO::FETCH_ASSOC);
-		$artist = $data['artist_id'];
-		$patron = $data['patron_id'];
+        $artist = $data['artist_id'];
+        $patron = $data['patron_id'];
         $title = $data['title'];
         $description = $data['description'];
         $date_created = $data['date_created'];
         $price = $data['price'];
-		$size = $data['size'];
+        $size = $data['size'];
         Database::disconnect();
-    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +143,7 @@
                         <h3>Update an Artwork</h3>
                     </div>
              
-                    <form class="form-horizontal" action="art_update.php?id=<?php echo $id?>" method="post">
+                    <form class="form-horizontal" action="art_update.php?id=<?php echo $id?>" method="post" enctype="multipart/form-data">
                     
 					<div class="control-group">
 					<label class="control-label">Artist</label>
@@ -171,7 +207,7 @@
                       <div class="control-group <?php echo !empty($date_createdError)?'error':'';?>">
                         <label class="control-label">Date Created</label>
                         <div class="controls">
-                            <input name="date_created" type="text" placeholder="Date Created" value="<?php echo !empty($date_created)?$date_created:'';?>">
+                            <input name="date_created" type="text" placeholder="YYYY-MM-DD" value="<?php echo !empty($date_created)?$date_created:'';?>">
                             <?php if (!empty($date_createdError)): ?>
                                 <span class="help-inline"><?php echo $date_createdError;?></span>
                             <?php endif;?>
@@ -195,11 +231,34 @@
                             <?php endif;?>
                         </div>
                       </div>
+					<div class="control-group <?php echo !empty($pictureError)?'error':'';?>">
+					<label class="control-label">Picture</label>
+					<div class="controls">
+						<input type="hidden" name="MAX_FILE_SIZE" value="16000000">
+						<input name="userfile" type="file" id="userfile">
+					</div>
+				</div>
+
                       <div class="form-actions">
                           <button type="submit" class="btn btn-success">Update</button>
                           <a class="btn" href="artworks_page.php">Back</a>
                         </div>
                     </form>
+
+		<!-- Display photo, if any --> 
+
+				<div class='control-group col-md-6'>
+					<div class="controls ">
+					<?php 
+					if ($data['fileSize'] > 0) 
+						echo '<img  height=5%; width=15%; src="data:image/jpeg;base64,' . 
+							base64_encode( $data['content'] ) . '" />'; 
+					else 
+						echo 'No photo on file.';
+					?><!-- converts to base 64 due to the need to read the binary files code and display img -->
+					</div>
+				</div>
+
                 </div>
                  
     </div> <!-- /container -->

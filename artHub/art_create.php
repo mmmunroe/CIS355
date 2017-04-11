@@ -11,6 +11,7 @@
         $date_createdError = null;
         $priceError = null;
         $sizeError = null;
+		$pictureError = null;
 
         // keep track post values
 		$artist_id = $_POST['artist_id'];
@@ -20,6 +21,14 @@
         $date_created = $_POST['date_created'];
         $price = $_POST['price'];
         $size = $_POST['size'];
+		$picture = $_POST['picture'];
+
+		// initialize $_FILES variables
+		$fileName = $_FILES['userfile']['name'];
+		$tmpName  = $_FILES['userfile']['tmp_name'];
+		$fileSize = $_FILES['userfile']['size'];
+		$fileType = $_FILES['userfile']['type'];
+		$content = file_get_contents($tmpName);
 
         // validate input
         $valid = true;
@@ -58,14 +67,30 @@
             $valid = false;
         }
 
+		// restrict file types for upload
+		$types = array('image/jpeg','image/gif','image/png');
+		if($filesize > 0) {
+			if(in_array($_FILES['userfile']['type'], $types)) {
+			}
+			else {
+				$fileName = null;
+				$fileType = null;
+				$fileSize = null;
+				$fileContent = null;
+				$pictureError = 'improper file type';
+				$valid=false;
+			
+			}
+		}
+
         // insert data
         if ($valid) {
             $pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "INSERT INTO artworks (artist_id,patron_id,title,description,date_created,price,size) values(?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO artworks (artist_id,patron_id,title,description,date_created,price,size,fileName,fileSize,fileType,content) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $q = $pdo->prepare($sql);
-            $q->execute(array($artist_id,$patron_id,$title,$description,$date_created,$price,$size));
+            $q->execute(array($artist_id,$patron_id,$title,$description,$date_created,$price,$size,$fileName,$fileSize,$fileType,$content));
             Database::disconnect();
             header("Location: artworks_page.php");
         }
@@ -88,7 +113,7 @@
                         <h3>Create an Artwork</h3>
                     </div>
 
-                    <form class="form-horizontal" action="art_create.php" method="post">
+                    <form class="form-horizontal" action="art_create.php" method="post" enctype="multipart/form-data">
 
                       <div class="control-group <?php echo !empty($artist_idError)?'error':'';?>">
                         <label class="control-label">Artist</label>
@@ -152,7 +177,7 @@
                       <div class="control-group <?php echo !empty($date_createdError)?'error':'';?>">
                         <label class="control-label">Date Created</label>
                         <div class="controls">
-                            <input name="date_created" type="text" placeholder="Date Created" value="<?php echo !empty($date_created)?$date_created:'';?>">
+                            <input name="date_created" type="text" placeholder="YYYY-MM-DD" value="<?php echo !empty($date_created)?$date_created:'';?>">
                             <?php if (!empty($date_createdError)): ?>
                                 <span class="help-inline"><?php echo $date_createdError;?></span>
                             <?php endif;?>
@@ -177,6 +202,16 @@
                             <?php endif;?>
                         </div>
                       </div>
+
+					<div class="control-group <?php echo !empty($pictureError)?'error':'';?>">
+					<label class="control-label">Picture</label>
+					<div class="controls">
+						<input type="hidden" name="MAX_FILE_SIZE" value="16000000">
+						<input name="userfile" type="file" id="userfile">
+						
+					</div>
+				</div>
+
                       <div class="form-actions">
                           <button type="submit" class="btn btn-success">Create</button>
                           <a class="btn" href="artworks_page.php">Back</a>
