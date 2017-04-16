@@ -33,7 +33,7 @@
         }
 
         if (empty($password)) {
-            $priceError = 'Please enter a password';
+            $passwordError = 'Please enter a password';
             $valid = false;
         } else
 			$password = md5($password);
