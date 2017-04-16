@@ -43,7 +43,7 @@
             </div>
             <div class="row">
                 <p>
-                    <a href="patron_create.php" class="btn btn-success">Create new Patron</a>
+                    <a href="patron_create.php" class="btn btn-primary">Create new Patron</a>
                         <a href="logout.php" class="btn btn-danger">Log out</a>
                 </p>
                  
@@ -67,7 +67,7 @@
                                 echo '<td width=250>';
                                 echo '<a class="btn" href="patron_read.php?id='.$row['id'].'">Read</a>';
                                 echo ' ';
-                                echo '<a class="btn btn-success" href="patron_update.php?id='.$row['id'].'">Update</a>';
+                                echo '<a class="btn btn-info" href="patron_update.php?id='.$row['id'].'">Update</a>';
                                 echo ' ';
                                 echo '<a class="btn btn-danger" href="patron_delete.php?id='.$row['id'].'">Delete</a>';
                                 echo '</td>';

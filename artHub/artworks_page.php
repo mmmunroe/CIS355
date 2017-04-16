@@ -43,7 +43,7 @@
             </div>
             <div class="row">
                 <p>
-                    <a href="art_create.php" class="btn btn-success">Create new Artwork Description</a>
+                    <a href="art_create.php" class="btn btn-primary">Create new Artwork Description</a>
                         <a href="logout.php" class="btn btn-danger">Log out</a>
                 </p>
                  
@@ -73,7 +73,7 @@
                                 echo '<td width=250>';
                                 echo '<a class="btn" href="art_read.php?id='.$row['id'].'">Read</a>';
                                 echo ' ';
-                                echo '<a class="btn btn-success" href="art_update.php?id='.$row['id'].'">Update</a>';
+                                echo '<a class="btn btn-info" href="art_update.php?id='.$row['id'].'">Update</a>';
                                 echo ' ';
                                 echo '<a class="btn btn-danger" href="art_delete.php?id='.$row['id'].'">Delete</a>';
                                 echo '</td>';
