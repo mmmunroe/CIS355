@@ -1,4 +1,19 @@
 <?php
+	/* ---------------------------------------------------------------------------
+	* filename    : art_delete.php
+	* description : allows user to delete artwork description.
+	* ---------------------------------------------------------------------------
+	*/
+
+	session_start();
+	if(!isset($_SESSION['artist_id'])){ // if artist not set,
+		if(!isset($_SESSION['patron_id'])) { // or if patron not set,
+			session_destroy();
+			header('Location: login.php');   // go to login page
+			exit;
+		}
+	}
+
     require 'database.php';
     $id = 0;
      

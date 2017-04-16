@@ -1,21 +1,27 @@
 <?php
+	/* ---------------------------------------------------------------------------
+	* filename    : login.php
+	* description : allows user to log in.
+	* ---------------------------------------------------------------------------
+	*/
+
         session_start();
 		
 		require 'database.php';
 		
 		if ( !empty($_POST)) {
 
-			$email = $_POST['email'];
+			$name = $_POST['name'];
 			$password = $_POST['password'];
 			$passwordhash = MD5($password);
 
-			//find record with email address
+			//find record
         
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "SELECT * FROM artists WHERE email = ? AND password = ? LIMIT 1";
+			$sql = "SELECT * FROM artists WHERE name = ? AND password = ? LIMIT 1";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($email,$passwordhash));
+			$q->execute(array($name,$passwordhash));
 			$data = $q->fetch(PDO::FETCH_ASSOC);
 	
 			if($data) { // if successful artist login set session variables
@@ -26,9 +32,9 @@
 			}
 
 			else { // check if user is a patron
-				$sql = "SELECT * FROM patrons WHERE email = ? AND password = ? LIMIT 1";
+				$sql = "SELECT * FROM patrons WHERE name = ? AND password = ? LIMIT 1";
 				$q = $pdo->prepare($sql);
-				$q->execute(array($email,$passwordhash));
+				$q->execute(array($name,$passwordhash));
 				$data = $q->fetch(PDO::FETCH_ASSOC);
 	
 				if($data) { // if successful patron login set session variables
@@ -60,8 +66,8 @@
         <form method="post" action="login.php">
                 <table>
         <tr>
-           <td>Email : </td>
-           <td><input type="text" name="email" class="textInput"></td>
+           <td>Name : </td>
+           <td><input type="text" name="name" class="textInput"></td>
         </tr>
         <tr>
            <td>Password : </td>

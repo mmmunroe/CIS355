@@ -1,4 +1,9 @@
 <?php
+	/* ---------------------------------------------------------------------------
+	* filename    : artist_create.php
+	* description : allows user to create an artist account.
+	* ---------------------------------------------------------------------------
+	*/
 
     require 'database.php';
 

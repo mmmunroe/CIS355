@@ -1,5 +1,11 @@
 <?php
 
+	/* ---------------------------------------------------------------------------
+	* filename    : patron_create.php
+	* description : allows user to create a patron account.
+	* ---------------------------------------------------------------------------
+	*/
+
     require 'database.php';
 
     if ( !empty($_POST)) {

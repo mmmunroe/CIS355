@@ -1,12 +1,18 @@
 <?php 
-	session_start();
-	if(!isset($_SESSION["person_id"])){ // if "user" not set,
-		session_destroy();
-		header('Location: login.php');   // go to login page
-		exit;
-	}
+	/* ---------------------------------------------------------------------------
+	* filename    : artists_page.php
+	* description : allows user to browse artists.
+	* ---------------------------------------------------------------------------
+	*/
 
-	$sessionid = $_SESSION['person_id'];
+	session_start();
+	if(!isset($_SESSION['artist_id'])){ // if artist not set,
+		if(!isset($_SESSION['patron_id'])) { // or if patron not set,
+			session_destroy();
+			header('Location: login.php');   // go to login page
+			exit;
+		}
+	}
 ?>
 
 <!DOCTYPE html>
@@ -37,8 +43,10 @@
             </div>
             <div class="row">
                 <p>
-                    <a href="artist_create.php" class="btn btn-success">Create new Artist</a>
+                    <a href="artist_create.php" class="btn btn-success">Create new Artist</a> 
+                       <a href="logout.php" class="btn btn-danger">Log out</a>
                 </p>
+
                  
                 <table class="table table-striped table-bordered">
                       <thead>

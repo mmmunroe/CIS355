@@ -1,3 +1,20 @@
+<?php 
+	/* ---------------------------------------------------------------------------
+	* filename    : patrons_page.php
+	* description : allows user to browse patrons.
+	* ---------------------------------------------------------------------------
+	*/
+
+	session_start();
+	if(!isset($_SESSION['artist_id'])){ // if artist not set,
+		if(!isset($_SESSION['patron_id'])) { // or if patron not set,
+			session_destroy();
+			header('Location: login.php');   // go to login page
+			exit;
+		}
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +44,7 @@
             <div class="row">
                 <p>
                     <a href="patron_create.php" class="btn btn-success">Create new Patron</a>
+                        <a href="logout.php" class="btn btn-danger">Log out</a>
                 </p>
                  
                 <table class="table table-striped table-bordered">

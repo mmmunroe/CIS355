@@ -1,4 +1,10 @@
 <?php 
+	/* ---------------------------------------------------------------------------
+	* filename    : artHub.php
+	* description : Home page which allows user to create an account, if needed.
+	* ---------------------------------------------------------------------------
+	*/
+
 	session_start();
 	if(!isset($_SESSION['artist_id'])){ // if artist not set,
 		if(!isset($_SESSION['patron_id'])) { // or if patron not set,
@@ -8,15 +14,6 @@
 		}
 	}
 
-	$id = $_GET['id'];
-	
-	if(isset($_SESSION['artist_id'])){ 
-		$sessionid = $_SESSION['artist_id'];
-	}
-	if(isset($_SESSION['patron_id'])) {
-		$sessionid = $_SESSION['patron_id'];
-	}
-	
 ?>
 
 <!DOCTYPE html>

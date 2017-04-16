@@ -1,4 +1,10 @@
 <?php
+	/* ---------------------------------------------------------------------------
+	* filename    : database.php
+	* description : allows connection to database tables.
+	* ---------------------------------------------------------------------------
+	*/
+
 class Database
 {
     private static $dbName = 'mmmunroe' ;
