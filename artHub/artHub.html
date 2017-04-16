@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script>
+        function retrievePage() {
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    document.getElementById("body").innerHTML = xhttp.responseText;
+                }
+            };
+            
+            xhttp.open("GET", "https://csis.svsu.edu/~mmmunroe/CIS355/artHub/artHub.php", true);
+            xhttp.send();
+        }
+    </script>
+</head>
+
+	<body onload="retrievePage();">
+    <div id="body"></div>    
+</body>
+</html>
