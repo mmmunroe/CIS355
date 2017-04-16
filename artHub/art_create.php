@@ -62,12 +62,12 @@
 		}
 
         if (empty($description)) {
-            $nameError = 'Please enter a description';
+            $descriptionError = 'Please enter a description';
             $valid = false;
         }
 
         if (empty($date_created)) {
-            $emailError = 'Please enter a date';
+            $date_createdError = 'Please enter a date';
             $valid = false;
         }
 
