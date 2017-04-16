@@ -34,8 +34,8 @@
 		$sizeError = null;
 		$pictureError = null;
 
-		$artistError = null;
-		$patronError = null;
+		$artist_idError = null;
+		$patron_idError = null;
          
         // keep track post values
         $title = $_POST['title'];
@@ -45,8 +45,8 @@
 		$size = $_POST['size'];
 		$picture = $_POST['picture'];
         
-		$artist = $_POST['artist_id'];
-		$patron = $_POST['patron_id'];
+		$artist_id = $_POST['artist_id'];
+		$patron_id = $_POST['patron_id'];
 
 		// initialize $_FILES variables
 		$fileName = $_FILES['userfile']['name'];
@@ -78,12 +78,12 @@
             $valid = false;
         }
 
-		if (empty($artist)) {
-			$artistError = 'Please choose an artist';
+		if (empty($artist_id)) {
+			$artist_idError = 'Please choose an artist';
 			$valid = false;
 		}
-		if (empty($patron)) {
-			$patronError = 'Please choose a patron';
+		if (empty($patron_id)) {
+			$patron_idError = 'Please choose a patron';
 			$valid = false;
 		} 
 
@@ -131,8 +131,8 @@
         $q = $pdo->prepare($sql);
         $q->execute(array($id));
         $data = $q->fetch(PDO::FETCH_ASSOC);
-        $artist = $data['artist_id'];
-        $patron = $data['patron_id'];
+        $artist_id = $data['artist_id'];
+        $patron_id = $data['patron_id'];
         $title = $data['title'];
         $description = $data['description'];
         $date_created = $data['date_created'];
