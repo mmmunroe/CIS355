@@ -62,26 +62,26 @@
         <div class="row">
                 <h3>Welcome</h3>
 
+		<br /> <br />
+
                 
         <form method="post" action="login.php">
                 <table>
         <tr>
            <td>Name : </td>
            <td><input type="text" name="name" class="textInput"></td>
-        </tr>
+        </tr> 
         <tr>
            <td>Password : </td>
            <td><input type="password" name="password" class="textInput"></td>
-        </tr>
+        </tr> 
         <tr>
            <td></td>
            <td><input type="submit" name="login_btn" class="Log In"></td>
         </tr>
                 </table>
-                <p>
-                        <a href="logout.php" class="btn btn-danger">Log out</a>
-                </p>
 
+				<br /> <br />
                 <p>
                 <a href="artist_create.php" class="btn btn-primary">Create new Artist Account</a>
         </p>
